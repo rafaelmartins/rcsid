@@ -17,40 +17,28 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
+// NOTE (rafaelmartins): We support only recent toolchains, then I simplified
+// this by hardcoding values instead of detecting in configure time.
+
 #ifndef RESID_SIDDEFS_H
 #define RESID_SIDDEFS_H
 
 // Compilation configuration.
-#define RESID_INLINING @RESID_INLINING@
-#define RESID_INLINE @RESID_INLINE@
-#define RESID_BRANCH_HINTS @RESID_BRANCH_HINTS@
+#define RESID_INLINING 1
+#define RESID_INLINE inline
+#define RESID_BRANCH_HINTS 1
 
-#define NEW_8580_FILTER @NEW_8580_FILTER@
+#define NEW_8580_FILTER 1
 
 // Compiler specifics.
-#define HAVE_BOOL @HAVE_BOOL@
-#define HAVE_BUILTIN_EXPECT @HAVE_BUILTIN_EXPECT@
-#define HAVE_LOG1P @HAVE_LOG1P@
-
-// Define bool, true, and false for C++ compilers that lack these keywords.
-#if !HAVE_BOOL
-typedef int bool;
-const bool true = 1;
-const bool false = 0;
-#endif
-
-#if HAVE_LOG1P
-#define HAS_LOG1P
-#endif
+#define HAVE_BOOL 1
+#define HAVE_BUILTIN_EXPECT 1
+#define HAVE_LOG1P 1
+#define HAS_LOG1P 1
 
 // Branch prediction macros, lifted off the Linux kernel.
-#if RESID_BRANCH_HINTS && HAVE_BUILTIN_EXPECT
 #define likely(x)      __builtin_expect(!!(x), 1)
 #define unlikely(x)    __builtin_expect(!!(x), 0)
-#else
-#define likely(x)      (x)
-#define unlikely(x)    (x)
-#endif
 
 namespace reSID {
 
